@@ -24,7 +24,7 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     @Autowired
     private UserRepository userRepository;
 
-
+//--Test
     @Override
     @Transactional
     public Boolean registerUser(UserDto userDto) throws IOException {
