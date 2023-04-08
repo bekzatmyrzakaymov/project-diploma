@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 @Setter
 public class UserDto {
     private Long id;
-    private String iin;
     private String firstName;
     private String lastName;
     private String patronymic;
@@ -19,15 +18,8 @@ public class UserDto {
     private String password;
     private String phoneNumber;
     private String username;
-    private Long structuralSubdivision;
-    private Long position;
-    private Long role;
-    private Long accessRegion;
     private String status;
     private LocalDateTime registerDate;
-    private LocalDateTime activationDate;
-    private Boolean hasDeletePermission;
-    private Long userSignedDocument;
+    private Long role;
     private String confirmPassword;
-    private Boolean userAgreement;
 }

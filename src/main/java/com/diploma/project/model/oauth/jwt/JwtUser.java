@@ -12,31 +12,27 @@ public class JwtUser implements UserDetails {
     private static final long serialVersionUID = 1L;
 
     private final Long id;
-    private final String iin;
     private final String lastName;
     private final String firstName;
     private final String patronymic;
     private final String phoneNumber;
-    private final String username;
     @JsonIgnore
     private final String password;
     private final String email;
     private final List<? extends GrantedAuthority> authorities;
 
 
-    public JwtUser(Long id, String iin, String lastName,
+    public JwtUser(Long id, String lastName,
                    String firstName, String patronymic,
                    String phoneNumber, String password,
-                   String email, String username, List<? extends GrantedAuthority> authorities) {
+                   String email, List<? extends GrantedAuthority> authorities) {
         this.id = id;
-        this.iin = iin;
         this.lastName = lastName;
         this.firstName = firstName;
         this.patronymic = patronymic;
         this.phoneNumber = phoneNumber;
         this.password = password;
         this.email = email;
-        this.username = username;
         this.authorities = authorities;
     }
 
@@ -53,15 +49,11 @@ public class JwtUser implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username;
+        return null;
     }
 
     public Long getId() {
         return id;
-    }
-
-    public String getIin() {
-        return iin;
     }
 
     public String getLastName() {
