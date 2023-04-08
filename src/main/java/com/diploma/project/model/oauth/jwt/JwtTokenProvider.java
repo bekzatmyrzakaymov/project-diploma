@@ -46,7 +46,7 @@ public class JwtTokenProvider {
 
 
     public String createToken(String username, Role roles) {
-        User user = userRepository.findByIinAndStatus(username, EUserStatus.ACTIVE).orElseThrow(() -> new UsernameNotFoundException("Username is not found"));
+        User user = userRepository.findByEmailAndStatus(username, EUserStatus.ACTIVE).orElseThrow(() -> new UsernameNotFoundException("Username is not found"));
 
         Claims claims = Jwts.claims().setSubject(username);
         claims.put("roles", roles.getName());

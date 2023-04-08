@@ -16,20 +16,20 @@ import java.util.Optional;
 @Service
 public class JwtUserDetailsService implements UserDetailsService {
 
-    @Autowired(required = false)
+    @Autowired
     private UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user;
-        Optional<User> userOptional = userRepository.findByIinAndStatus(username, EUserStatus.ACTIVE);
+        Optional<User> userOptional = userRepository.findByEmailAndStatus(username, EUserStatus.ACTIVE);
         if (userOptional.isPresent()) {
             user = userOptional.get();
-        } else if (userRepository.findAllByIinAndStatus(username, EUserStatus.NOT_ENABLED).size() >= 1) {
+        } else if (userRepository.findAllByEmailAndStatus(username, EUserStatus.NOT_ENABLED).size() >= 1) {
             throw new CustomException(ExceptionConstants.LV005);
-        } else if (userRepository.findAllByIinAndStatus(username, EUserStatus.DECLINED).size() >= 1) {
+        } else if (userRepository.findAllByEmailAndStatus(username, EUserStatus.DECLINED).size() >= 1) {
             throw new CustomException(ExceptionConstants.IU006);
-        } else if (userRepository.findAllByIinAndStatus(username, EUserStatus.DISABLED).size() >= 1) {
+        } else if (userRepository.findAllByEmailAndStatus(username, EUserStatus.DISABLED).size() >= 1) {
             throw new CustomException(ExceptionConstants.IU004);
         } else {
             throw new CustomException(ExceptionConstants.IUP05);

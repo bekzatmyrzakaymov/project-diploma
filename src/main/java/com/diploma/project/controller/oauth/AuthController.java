@@ -47,28 +47,25 @@ public class AuthController {
 
             String username = loginRequest.getUsername();
             String password = loginRequest.getPassword();
-            Optional<User> user = userRepository.findByUsername(username);
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.get().getIin(), password));
+            Optional<User> user = userRepository.findByEmail(username);
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.get().getEmail(), password));
 
-            String token = jwtTokenProvider.createToken(user.get().getIin(), user.get().getRole());
-//            if (!user.getStatus().equals(EUserStatus.ACTIVE)) {
-//                return ResponseEntity.badRequest().body("User is disabled");
-//            }
+            String token = jwtTokenProvider.createToken(user.get().getEmail(), user.get().getRole());
             Map<Object, Object> response = new HashMap<>();
-            response.put("username", user.get().getIin());
+            response.put("username", user.get().getEmail());
             response.put("token", token);
 
 
             return ResponseEntity.ok(response);
 
         } catch (AuthenticationException e) {
-            if (userRepository.findAllByIinAndStatus(loginRequest.getUsername(), EUserStatus.NOT_ENABLED).size() >= 1) {
+            if (userRepository.findAllByEmailAndStatus(loginRequest.getUsername(), EUserStatus.NOT_ENABLED).size() >= 1) {
                 throw new CustomException(ExceptionConstants.IU004, "Ваш аккаунт не активирован");
             }
-            if (userRepository.findAllByIinAndStatus(loginRequest.getUsername(), EUserStatus.DECLINED).size() >= 1) {
+            if (userRepository.findAllByEmailAndStatus(loginRequest.getUsername(), EUserStatus.DECLINED).size() >= 1) {
                 throw new CustomException(ExceptionConstants.IU004, "Ваш запрос на регистрацию отклонен");
             }
-            if (userRepository.findAllByIinAndStatus(loginRequest.getUsername(), EUserStatus.DISABLED).size() >= 1) {
+            if (userRepository.findAllByEmailAndStatus(loginRequest.getUsername(), EUserStatus.DISABLED).size() >= 1) {
                 throw new CustomException(ExceptionConstants.IU004, "Ваш аккаунт отключен");
             }
             throw new CustomException(ExceptionConstants.IUP05);
@@ -79,12 +76,8 @@ public class AuthController {
     @Transactional
     public ResponseEntity<?> registerUser(@RequestBody UserDto userDto,
                                           HttpServletRequest request) throws IOException {
-
-        if (userRepository.existsByIinAndStatus(userDto.getIin(), EUserStatus.ACTIVE)) {
-            throw new CustomException(ExceptionConstants.LV003, String.format(ExceptionConstants.LV003.getTemplateMessage(), userDto.getIin()));
-        }
-        if (userRepository.existsByIinAndStatus(userDto.getIin(), EUserStatus.NOT_ENABLED)) {
-            throw new CustomException(ExceptionConstants.LV005, String.format(ExceptionConstants.LV005.getTemplateMessage(), userDto.getIin()));
+        if (userRepository.existsByEmailAndStatus(userDto.getEmail(), EUserStatus.NOT_ENABLED)) {
+            throw new CustomException(ExceptionConstants.LV005, String.format(ExceptionConstants.LV005.getTemplateMessage(), userDto.getEmail()));
         }
         if (userRepository.existsByEmailAndStatus(userDto.getEmail(), EUserStatus.ACTIVE)) {
             throw new CustomException(ExceptionConstants.LV004, String.format(ExceptionConstants.LV004.getTemplateMessage(), userDto.getEmail()));

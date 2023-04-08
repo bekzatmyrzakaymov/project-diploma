@@ -12,14 +12,12 @@ public class JwtUserFactory {
 
     public static JwtUser create(User user) {
         return new JwtUser(user.getId(),
-                user.getIin(),
                 user.getLastName(),
                 user.getFirstName(),
                 user.getPatronymic(),
                 user.getPhoneNumber(),
                 user.getPassword(),
                 user.getEmail(),
-                user.getUsername(),
                 Collections.singletonList(new SimpleGrantedAuthority(user.getRole().getName())));
     }
 
