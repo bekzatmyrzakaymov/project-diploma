@@ -20,12 +20,13 @@ import java.util.List;
 @Slf4j
 //@PreAuthorize("hasRole('MODERATOR')")
 public class UsersController {
-
+  //--Страница - профиль
     @Autowired
     private UserServiceImpl userService;
     @Autowired
     private RoleRepository roleRepository;
 
+    //--Пользователь по id
     @GetMapping("/{id}")
     public UserDto get(@PathVariable("id") Long id) {
         return userService.getById(id);
@@ -65,6 +66,7 @@ public class UsersController {
         return ResponseEntity.ok().body(userService.disableUser(userId));
     }
 
+    //--Поменять пароль
     @PutMapping("/change-password/{userId}")
     public ResponseEntity<String> changePassword(@PathVariable("userId") Long userId,
                                                  @RequestParam("oldPassword") String oldPassword,
@@ -78,7 +80,7 @@ public class UsersController {
         return ResponseEntity.ok().body(roleRepository.findAll());
     }
 
-
+    //--Поменять роль
     @PutMapping("/change-role/{userId}")
     public ResponseEntity<UserDto> changeRole(@PathVariable("userId") Long userId,
                                               @RequestParam("newRole") Long newRole) {
@@ -86,13 +88,14 @@ public class UsersController {
         return ResponseEntity.ok().body(userService.changeRole(newRole, userId));
     }
 
+    //--Поменять почту
     @PutMapping("/change-email/{userId}")
     public ResponseEntity<UserDto> changeEmail(@PathVariable("userId") Long userId,
                                                @RequestParam("email") String email) {
         return ResponseEntity.ok().body(userService.changeEmail(email, userId));
     }
 
-
+    //--Поменять инфо пользователя
     @PutMapping("/change-user-info")
     public ResponseEntity<?> changeUserInfo( @RequestBody UserDto userDto){
         if(userDto.getId()!=null){
