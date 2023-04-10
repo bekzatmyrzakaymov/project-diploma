@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +28,7 @@ public class UsersController {
     //--Пользователь по id
     @GetMapping("/{id}")
     public UserDto get(@PathVariable("id") Long id) {
+        log.info("User Page - user profile");
         return userService.getById(id);
     }
 
@@ -36,6 +36,7 @@ public class UsersController {
     @GetMapping("/all-users")
     @PreAuthorize("hasRole('MODERATOR')")
     public ResponseEntity<List<UserDto>> findAllUsers() {
+        log.info("User Page - all user");
         return ResponseEntity.ok().body(userService.getAllUsers());
     }
 
@@ -71,6 +72,7 @@ public class UsersController {
     public ResponseEntity<String> changePassword(@PathVariable("userId") Long userId,
                                                  @RequestParam("oldPassword") String oldPassword,
                                                  @RequestParam("newPassword") String newPassword) {
+        log.info("User Page - change user password");
         return ResponseEntity.ok().body(userService.changePassword(oldPassword, newPassword, userId));
     }
 
@@ -92,6 +94,7 @@ public class UsersController {
     @PutMapping("/change-email/{userId}")
     public ResponseEntity<UserDto> changeEmail(@PathVariable("userId") Long userId,
                                                @RequestParam("email") String email) {
+        log.info("User Page - change user email");
         return ResponseEntity.ok().body(userService.changeEmail(email, userId));
     }
 
@@ -101,6 +104,7 @@ public class UsersController {
         if(userDto.getId()!=null){
             return ResponseEntity.ok().body(userService.changeInfo(userDto));
         }
+        log.info("User Page - change user info");
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Не удалось изменить пользователя");
     }
 
