@@ -19,11 +19,13 @@ public class NotificationController {
 
     @GetMapping("/{id}")
     public List<Notification> get(@PathVariable("id") Long id) {
+        log.info("Notification Page - get notification by user id");
         return notificationService.getNotificationByUser(id);
     }
 
     @PutMapping("/done-notification/{id}")
     public void doneNotification(@PathVariable("id") Long id) {
+        log.info("Notification Page - done notification");
          notificationService.doNotification(id);
     }
 }

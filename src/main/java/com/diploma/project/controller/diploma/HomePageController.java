@@ -6,7 +6,6 @@ import com.diploma.project.service.impl.HomePageServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -20,6 +19,7 @@ public class HomePageController {
     @PostMapping("/{id}")
     public List<HomePage> get(@PathVariable("id") Integer id,
                               @RequestBody HomePageSearch homePageSearch) {
+        log.info("Home Page - get form by type");
         return homePageService.getHomePage(homePageSearch,id);
     }
 }
