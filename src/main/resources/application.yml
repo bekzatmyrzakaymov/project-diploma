@@ -14,9 +14,8 @@ spring:
     show-sql: true
   datasource:
     main:
-      #password: bekzat
       password: bekzat
-      jdbcUrl: jdbc:postgresql://localhost:5432/kfm-test
+      jdbcUrl: jdbc:postgresql://localhost:5432/diploma
       username: postgres
       driver-class-name: org.postgresql.Driver
       ddl-auto: update
