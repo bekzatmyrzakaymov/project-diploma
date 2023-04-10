@@ -30,6 +30,7 @@ import java.util.Optional;
 @Slf4j
 public class AuthController {
 
+    //--Авторизация/Регистрация
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
@@ -41,7 +42,7 @@ public class AuthController {
 
 
 
-    @PostMapping("/signin")
+    @PostMapping("/signin") //--Авторизация
     public ResponseEntity<?> authUser(@RequestBody LoginRequest loginRequest, HttpServletRequest request) {
         try {
 
@@ -73,7 +74,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    @Transactional
+    @Transactional //--Регистрация
     public ResponseEntity<?> registerUser(@RequestBody UserDto userDto,
                                           HttpServletRequest request) throws IOException {
         if (userRepository.existsByEmailAndStatus(userDto.getEmail(), EUserStatus.NOT_ENABLED)) {

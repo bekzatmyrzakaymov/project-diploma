@@ -15,6 +15,8 @@ import java.util.List;
 @RequestMapping("/notification")
 @Slf4j
 public class NotificationController {
+
+    //--Страница - Уведомления
     @Autowired
     private NotificationServiceImpl notificationService;
 
