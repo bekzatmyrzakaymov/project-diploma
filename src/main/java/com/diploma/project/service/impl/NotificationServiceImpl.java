@@ -15,4 +15,8 @@ public class NotificationServiceImpl {
     public List<Notification> getNotificationByUser(Long id){
         return notificationRepository.findAllByUserId(id);
     }
+
+    public void doNotification(Long id){
+        notificationRepository.notificationDone(id);
+    }
 }
