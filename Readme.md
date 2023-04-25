@@ -1,1 +1,1 @@
-Diploma
+Diploma project
