@@ -44,12 +44,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/swagger-ui/**",
                         "/webjars/springfox-swagger-ui/**").permitAll()
                 .antMatchers("/api/v1/auth/**").permitAll()
-                .antMatchers("/dictionary/**").permitAll()
-                .antMatchers("/fl/get-fl-by-iin/**").permitAll()
-                .antMatchers("/fl/get-fl-fio/**").permitAll()
-                .antMatchers("/ul/get-reg-addres-ul/**").permitAll()
-                .antMatchers("/ul/get-ul-risk/**").permitAll()
-                .antMatchers("/fl/get-fl-risk/**").permitAll()
+                .antMatchers("/**").permitAll()
                 .anyRequest().authenticated().and().apply(new JwtConfigurer(jwtTokenProvider));
     }
 

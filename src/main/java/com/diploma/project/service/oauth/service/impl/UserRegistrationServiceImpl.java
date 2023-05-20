@@ -24,17 +24,17 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     @Autowired
     private UserRepository userRepository;
 
-//--Test
     @Override
     @Transactional
     public Boolean registerUser(UserDto userDto) throws IOException {
         User user = new User(userDto.getLastName(), userDto.getFirstName(), userDto.getPatronymic(),
                 userDto.getEmail(), userDto.getPhoneNumber(), passwordEncoder.encode(userDto.getPassword()));
 
-        user.setStatus(EUserStatus.NOT_ENABLED);
-        final Long roleId=1L;
-        user.setRole(roleRepository.findById(roleId)
-                .orElseThrow(ThrowExceptionUtil.throwCustomExceptionByCodeNF012(roleId.toString(), Role.class)));
+        user.setStatus(EUserStatus.ACTIVE);
+        if(userDto.getRole()!=null){
+            user.setRole(roleRepository.findById(userDto.getRole())
+                    .orElseThrow(ThrowExceptionUtil.throwCustomExceptionByCodeNF012(userDto.getRole().toString(), Role.class)));
+        }
         final User savedUser = userRepository.save(user);
         return savedUser.getId() != null;
     }

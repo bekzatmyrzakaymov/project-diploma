@@ -1,5 +1,6 @@
 server:
   port: 8081
+#  host: 10.202.38.148
   servlet:
     context-path: /diploma
   error:
@@ -50,6 +51,9 @@ logging:
           descriptor:
             sql:
               BasicBinder: TRACE
+elasticIp: 10.202.19.149
+prodIp: 10.202.38.148
+#email:
 
 clientApp:
   name: diploma-api
