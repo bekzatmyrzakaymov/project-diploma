@@ -12,6 +12,7 @@ import com.diploma.project.repository.oauth.UserRepository;
 import com.diploma.project.util.CustomBeanUtils;
 import com.diploma.project.util.EmailSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,7 +32,8 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl {
 
-    private final String[] IGNORE_FIELDS = {"roles", "accessRegion", "structuralSubdivision", "position", "userSignedDocument;"};
+    private final String[] IGNORE_FIELDS = {"roles", "accessRegion", "structuralSubdivision",
+            "position", "userSignedDocument;"};
 
     @Autowired
     private UserRepository userRepository;

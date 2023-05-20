@@ -8,4 +8,5 @@ public class HomePageSearch {
     private String position;
     private String city;
     private String clinicName;
+    private String text;
 }
