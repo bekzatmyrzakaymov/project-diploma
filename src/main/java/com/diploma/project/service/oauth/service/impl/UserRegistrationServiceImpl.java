@@ -1,9 +1,11 @@
 package com.diploma.project.service.oauth.service.impl;
 import com.diploma.project.exception.util.ThrowExceptionUtil;
+import com.diploma.project.model.homePage.DoctorList;
 import com.diploma.project.model.oauth.EUserStatus;
 import com.diploma.project.model.oauth.Role;
 import com.diploma.project.model.oauth.User;
 import com.diploma.project.model.oauth.dto.UserDto;
+import com.diploma.project.repository.homePage.DoctorListRepository;
 import com.diploma.project.repository.oauth.RoleRepository;
 import com.diploma.project.repository.oauth.UserRepository;
 import com.diploma.project.service.oauth.service.UserRegistrationService;
@@ -23,6 +25,8 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     private RoleRepository roleRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private DoctorListRepository doctorListRepository;
 
     @Override
     @Transactional
@@ -36,6 +40,13 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
                     .orElseThrow(ThrowExceptionUtil.throwCustomExceptionByCodeNF012(userDto.getRole().toString(), Role.class)));
         }
         final User savedUser = userRepository.save(user);
+
+        if(userDto.getRole()!=null && userDto.getRole()==1){
+            DoctorList doctorList = new DoctorList();
+            doctorList.setUser(savedUser);
+            doctorListRepository.save(doctorList);
+        }
+
         return savedUser.getId() != null;
     }
 }

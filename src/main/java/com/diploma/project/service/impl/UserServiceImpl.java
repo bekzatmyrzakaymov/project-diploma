@@ -3,10 +3,12 @@ package com.diploma.project.service.impl;
 import com.diploma.project.exception.CustomException;
 import com.diploma.project.exception.constants.ExceptionConstants;
 import com.diploma.project.exception.util.ThrowExceptionUtil;
+import com.diploma.project.model.homePage.DoctorList;
 import com.diploma.project.model.oauth.EUserStatus;
 import com.diploma.project.model.oauth.Role;
 import com.diploma.project.model.oauth.User;
 import com.diploma.project.model.oauth.dto.UserDto;
+import com.diploma.project.repository.homePage.DoctorListRepository;
 import com.diploma.project.repository.oauth.RoleRepository;
 import com.diploma.project.repository.oauth.UserRepository;
 import com.diploma.project.util.CustomBeanUtils;
@@ -43,6 +45,8 @@ public class UserServiceImpl {
     private RoleRepository roleRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private DoctorListRepository doctorListRepository;
 
     public UserDto getById(Long id){
         return convertToDto(userRepository.getById(id));
@@ -180,6 +184,20 @@ public class UserServiceImpl {
         if (entity.getRole() != null) {
             dto.setRole(entity.getRole().getId());
         }
+
+        DoctorList doctorList = doctorListRepository.findDistinctFirstByUserId(dto.getId());
+        if(doctorList!=null){
+            if(doctorList.getAddress()!=null){
+                dto.setAddress(doctorList.getAddress());
+            }
+            if(doctorList.getCity()!=null){
+                dto.setCity(doctorList.getCity());
+            }
+            if(doctorList.getClinicList()!=null){
+                dto.setClinicList(doctorList.getClinicList());
+            }
+        }
+
         return dto;
     }
 
