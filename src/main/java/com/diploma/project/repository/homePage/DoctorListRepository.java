@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DoctorListRepository extends JpaRepository<DoctorList,Long>, JpaSpecificationExecutor<DoctorList> {
+
+    DoctorList findDistinctFirstByUserId(Long id);
 }

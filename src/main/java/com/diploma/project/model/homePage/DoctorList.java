@@ -1,5 +1,7 @@
 package com.diploma.project.model.homePage;
 
+import com.diploma.project.model.oauth.Role;
+import com.diploma.project.model.oauth.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,9 +26,20 @@ public class DoctorList {
     @Column(name = "city")
     private String city;
 
+    @Column(name = "address")
+    private String address;
+
     @Column(name = "rating")
     private Double rating;
 
     @Column(name = "photo")
     private String photo;
+
+    @OneToOne
+    @JoinColumn(name = "clinic_list_id")
+    private ClinicList clinicList;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }

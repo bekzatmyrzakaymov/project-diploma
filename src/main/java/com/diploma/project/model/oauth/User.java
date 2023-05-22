@@ -23,6 +23,8 @@ public class User {
     private String email;
     @Column(name = "phone_number")
     private String phoneNumber;
+    @Column(name = "photo")
+    private String photo;
     private String password;
     private Boolean enabled = true;
 
