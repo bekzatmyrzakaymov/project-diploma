@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class DoctorServiceImpl {
@@ -20,6 +21,38 @@ public class DoctorServiceImpl {
     private DoctorRecordRepository doctorRecordRepository;
     @Autowired
     private UserRepository userRepository;
+
+    public List<DoctorRecordDto> getDoctorRecordByPatientId(Long id){
+        return doctorRecordRepository.findAllByPatientId(id)
+                .stream()
+                .map(this::convertDoctorRecordDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<DoctorRecordDto> getDoctorRecordByDoctorId(Long id){
+        return doctorRecordRepository.findAllByDoctorId(id)
+                .stream()
+                .map(this::convertDoctorRecordDto)
+                .collect(Collectors.toList());
+    }
+
+    private DoctorRecordDto convertDoctorRecordDto(DoctorRecord doctorRecord){
+        DoctorRecordDto dto =new DoctorRecordDto();
+        CustomBeanUtils.copyPropertiesIgnoreNullPropertyNames(doctorRecord, dto, "patient","doctor");
+        if(doctorRecord.getPatient()!=null){
+            if(doctorRecord.getPatient().getFullName()!=null){
+                dto.setPatient(doctorRecord.getPatient().getFullName());
+            }
+            if(doctorRecord.getPatient().getId()!=null){
+                dto.setPatientId(doctorRecord.getPatient().getId());
+            }
+        }
+
+        if(doctorRecord.getDoctor()!=null){
+            dto.setDoctorId(doctorRecord.getDoctor().getId());
+        }
+        return dto;
+    }
 
     public List<User> getPatientList(String name){
         JpaSpecificationBuilder<User> builder = new JpaSpecificationBuilder<>();

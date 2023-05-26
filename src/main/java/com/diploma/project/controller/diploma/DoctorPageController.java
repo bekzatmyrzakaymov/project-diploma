@@ -1,5 +1,6 @@
 package com.diploma.project.controller.diploma;
 
+import com.diploma.project.model.DoctorRecord;
 import com.diploma.project.model.dto.DoctorRecordDto;
 import com.diploma.project.model.oauth.User;
 import com.diploma.project.service.impl.DoctorServiceImpl;
@@ -25,5 +26,15 @@ public class DoctorPageController {
     @GetMapping("/patient_list")
     public List<User> getUser(@RequestParam("name") String name) {
         return doctorService.getPatientList(name);
+    }
+
+    @GetMapping("/patient-record/{id}")
+    public List<DoctorRecordDto> getPatientRecord(@RequestParam("id") Long id) {
+        return doctorService.getDoctorRecordByPatientId(id);
+    }
+
+    @GetMapping("/doctor-record/{id}")
+    public List<DoctorRecordDto> getDoctorRecord(@RequestParam("id") Long id) {
+        return doctorService.getDoctorRecordByDoctorId(id);
     }
 }
