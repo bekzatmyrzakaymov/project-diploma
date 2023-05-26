@@ -13,9 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 public class UserDto {
     private Long id;
-    private String firstName;
-    private String lastName;
-    private String patronymic;
+    private String fullName;
     private String email;
     private String password;
     private String phoneNumber;

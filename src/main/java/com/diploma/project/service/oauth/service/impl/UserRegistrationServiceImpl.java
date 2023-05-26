@@ -36,8 +36,7 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     @Override
     @Transactional
     public Boolean registerUser(UserDto userDto) throws IOException {
-        User user = new User(userDto.getLastName(), userDto.getFirstName(), userDto.getPatronymic(),
-                userDto.getEmail(), userDto.getPhoneNumber(), passwordEncoder.encode(userDto.getPassword()));
+        User user = new User(userDto.getEmail(), userDto.getPhoneNumber(), passwordEncoder.encode(userDto.getPassword()));
 
         user.setStatus(EUserStatus.ACTIVE);
         if(userDto.getRole()!=null){
