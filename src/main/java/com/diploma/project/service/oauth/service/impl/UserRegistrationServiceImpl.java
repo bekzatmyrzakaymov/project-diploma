@@ -1,10 +1,12 @@
 package com.diploma.project.service.oauth.service.impl;
 import com.diploma.project.exception.util.ThrowExceptionUtil;
+import com.diploma.project.model.homePage.ClinicList;
 import com.diploma.project.model.homePage.DoctorList;
 import com.diploma.project.model.oauth.EUserStatus;
 import com.diploma.project.model.oauth.Role;
 import com.diploma.project.model.oauth.User;
 import com.diploma.project.model.oauth.dto.UserDto;
+import com.diploma.project.repository.homePage.ClinicListRepository;
 import com.diploma.project.repository.homePage.DoctorListRepository;
 import com.diploma.project.repository.oauth.RoleRepository;
 import com.diploma.project.repository.oauth.UserRepository;
@@ -15,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +30,8 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     private UserRepository userRepository;
     @Autowired
     private DoctorListRepository doctorListRepository;
+    @Autowired
+    private ClinicListRepository clinicListRepository;
 
     @Override
     @Transactional
@@ -44,6 +49,12 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
         if(userDto.getRole()!=null && userDto.getRole()==1){
             DoctorList doctorList = new DoctorList();
             doctorList.setUser(savedUser);
+            if(userDto.getClinicId()!=null){
+                Optional<ClinicList> clinicListOptional = clinicListRepository.findById(userDto.getClinicId());
+                if(clinicListOptional.isPresent()){
+                    doctorList.setClinicList(clinicListOptional.get());
+                }
+            }
             doctorListRepository.save(doctorList);
         }
 

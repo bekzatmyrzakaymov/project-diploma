@@ -1,5 +1,6 @@
 package com.diploma.project.model;
 
+import com.diploma.project.model.oauth.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,12 +18,19 @@ public class DoctorRecord {
     @Column(name = "patient")
     private String patient;
 
-    @Column(name = "title")
+    @Column(name = "title",columnDefinition = "TEXT")
     private String title;
 
     @Column(name = "specification",columnDefinition = "TEXT")
     private String specification;
 
+    @Column(name = "file_path", columnDefinition = "TEXT")
+    private String filePath;
+
     @Column(name = "is_avail")
     private Boolean isAvail;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 }

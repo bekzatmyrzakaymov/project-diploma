@@ -14,19 +14,10 @@ import com.diploma.project.repository.oauth.UserRepository;
 import com.diploma.project.util.CustomBeanUtils;
 import com.diploma.project.util.EmailSenderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -139,6 +130,7 @@ public class UserServiceImpl {
     public UserDto changeInfo(UserDto userDto){
         final User user = userRepository.findById(userDto.getId())
                 .orElseThrow(ThrowExceptionUtil.throwCustomExceptionByCodeNF012(userDto.getId().toString(), User.class));
+        CustomBeanUtils.copyPropertiesIgnoreNullPropertyNames(userDto, user, IGNORE_FIELDS);
         if(!user.getEmail().equals(userDto.getEmail()) && userDto.getEmail()!=null){
             if (userRepository.existsByEmailAndStatus(userDto.getEmail(), EUserStatus.ACTIVE)) {
                 throw new CustomException(ExceptionConstants.LV004, "Пользователь с таким EMAIL уже зарегистрирован");
@@ -175,6 +167,14 @@ public class UserServiceImpl {
         return convertToDto(user);
     }
 
+    @Transactional
+    public UserDto changePhone(String phone, Long userId) {
+        final User user = userRepository.findById(userId)
+                .orElseThrow(ThrowExceptionUtil.throwCustomExceptionByCodeNF012(userId.toString(), User.class));
+        user.setPhoneNumber(phone);
+        return convertToDto(user);
+    }
+
 
     private UserDto convertToDto(User entity) {
         UserDto dto = new UserDto();
@@ -194,7 +194,28 @@ public class UserServiceImpl {
                 dto.setCity(doctorList.getCity());
             }
             if(doctorList.getClinicList()!=null){
-                dto.setClinicList(doctorList.getClinicList());
+                if(doctorList.getClinicList().getName()!=null){
+                    dto.setClinicMame(doctorList.getClinicList().getName());
+                }
+                if(doctorList.getClinicList().getWorkTime()!=null){
+                    dto.setClinicWorkTime(doctorList.getClinicList().getWorkTime());
+                }
+
+                if(doctorList.getClinicList().getWorkDays()!=null){
+                    dto.setClinicWorkDays(doctorList.getClinicList().getWorkDays());
+                }
+                if(doctorList.getClinicList().getCity()!=null){
+                    dto.setClinicCity(doctorList.getClinicList().getCity());
+                }
+                if(doctorList.getClinicList().getAddress()!=null){
+                    dto.setClinicAddress(doctorList.getClinicList().getAddress());
+                }
+                if(doctorList.getClinicList().getRating()!=null){
+                    dto.setClinicRating(doctorList.getClinicList().getRating());
+                }
+                if(doctorList.getClinicList().getPhoto()!=null){
+                    dto.setClinicPhoto(doctorList.getClinicList().getPhoto());
+                }
             }
         }
 
