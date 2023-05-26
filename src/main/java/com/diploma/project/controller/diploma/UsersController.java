@@ -98,6 +98,13 @@ public class UsersController {
         return ResponseEntity.ok().body(userService.changeEmail(email, userId));
     }
 
+    @PutMapping("/change-phone/{userId}")
+    public ResponseEntity<UserDto> changePhone(@PathVariable("userId") Long userId,
+                                               @RequestParam("phone") String phone) {
+        log.info("User Page - change user phone");
+        return ResponseEntity.ok().body(userService.changePhone(phone, userId));
+    }
+
     //--Поменять инфо пользователя
     @PutMapping("/change-user-info")
     public ResponseEntity<?> changeUserInfo( @RequestBody UserDto userDto){

@@ -9,4 +9,6 @@ public class DoctorRecordDto {
     private String title;
     private String specification;
     private Boolean isAvail;
+    private String filePath;
+    private Long doctorId;
 }

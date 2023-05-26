@@ -3,6 +3,7 @@ package com.diploma.project.model.oauth.dto;
 import com.diploma.project.model.homePage.ClinicList;
 import lombok.*;
 
+import javax.persistence.Column;
 import java.time.LocalDateTime;
 
 @Getter
@@ -26,5 +27,14 @@ public class UserDto {
     private String city;
     private String address;
     private String photo;
-    private ClinicList clinicList;
+//    private ClinicList clinicList;
+
+    private Long clinicId;
+    private String clinicMame;
+    private String clinicWorkTime;
+    private String clinicWorkDays;
+    private String clinicCity;
+    private String clinicAddress;
+    private Double clinicRating;
+    private String clinicPhoto;
 }
