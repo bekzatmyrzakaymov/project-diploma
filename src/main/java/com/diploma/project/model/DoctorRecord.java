@@ -15,8 +15,12 @@ public class DoctorRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "patient")
-    private String patient;
+//    @Column(name = "patient")
+//    private String patient;
+
+    @ManyToOne
+    @JoinColumn(name = "patient_id")
+    private User patient;
 
     @Column(name = "title",columnDefinition = "TEXT")
     private String title;
@@ -31,6 +35,6 @@ public class DoctorRecord {
     private Boolean isAvail;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "doctor_id")
+    private User doctor;
 }

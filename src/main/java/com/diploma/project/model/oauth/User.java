@@ -15,6 +15,9 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "full_name")
+    private String fullName;
     @Column(name = "last_name")
     private String lastName;
     @Column(name = "first_name")
@@ -30,12 +33,8 @@ public class User {
 
     public User() {}
 
-    public User(String lastName, String firstName, String patronymic,
-                String email, String phoneNumber,
+    public User(String email, String phoneNumber,
                 String password) {
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.patronymic = patronymic;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.password = password;

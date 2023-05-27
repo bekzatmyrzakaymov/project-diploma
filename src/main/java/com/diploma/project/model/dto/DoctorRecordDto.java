@@ -11,4 +11,5 @@ public class DoctorRecordDto {
     private Boolean isAvail;
     private String filePath;
     private Long doctorId;
+    private Long patientId;
 }
