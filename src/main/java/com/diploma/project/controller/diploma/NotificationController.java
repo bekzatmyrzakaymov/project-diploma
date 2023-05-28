@@ -1,6 +1,7 @@
 package com.diploma.project.controller.diploma;
 
 import com.diploma.project.model.Notification;
+import com.diploma.project.model.dto.NotificationDto;
 import com.diploma.project.service.impl.NotificationServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,12 @@ public class NotificationController {
         log.info("Notification Page - get notification by user id");
         return notificationService.getNotificationByUser(id);
     }
+
+    @PostMapping("/create")
+    public String create(@RequestBody NotificationDto notificationDto) {
+        return notificationService.createNotification(notificationDto);
+    }
+
 
     @PutMapping("/done-notification/{id}")
     public void doneNotification(@PathVariable("id") Long id) {
