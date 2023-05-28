@@ -2,6 +2,7 @@ package com.diploma.project.controller.diploma;
 
 import com.diploma.project.model.DoctorRecord;
 import com.diploma.project.model.dto.DoctorRecordDto;
+import com.diploma.project.model.dto.ReviewDto;
 import com.diploma.project.model.oauth.User;
 import com.diploma.project.service.impl.DoctorServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,16 @@ public class DoctorPageController {
     public DoctorRecordDto createRecord(@RequestBody DoctorRecordDto dto) {
         log.info("Doctor Page - Create new Patient record");
         return doctorService.createRecord(dto);
+    }
+
+    @PostMapping("/create-review")
+    public String createReview(@RequestBody ReviewDto reviewDto) {
+        return doctorService.createReview(reviewDto);
+    }
+
+    @GetMapping("/doctor-review/{id}")
+    public List<ReviewDto> getDoctorReview(@PathVariable("id") Long id) {
+        return doctorService.getReviewList(id);
     }
 
     @GetMapping("/patient_list")

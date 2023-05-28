@@ -1,9 +1,12 @@
 package com.diploma.project.service.impl;
 
 import com.diploma.project.model.DoctorRecord;
+import com.diploma.project.model.Review;
 import com.diploma.project.model.dto.DoctorRecordDto;
+import com.diploma.project.model.dto.ReviewDto;
 import com.diploma.project.model.oauth.User;
 import com.diploma.project.repository.DoctorRecordRepository;
+import com.diploma.project.repository.ReviewRepository;
 import com.diploma.project.repository.oauth.UserRepository;
 import com.diploma.project.util.CustomBeanUtils;
 import com.diploma.project.util.JpaSpecificationBuilder;
@@ -11,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -21,6 +25,53 @@ public class DoctorServiceImpl {
     private DoctorRecordRepository doctorRecordRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ReviewRepository reviewRepository;
+
+    public List<ReviewDto> getReviewList(Long id){
+        return reviewRepository.findAllByDoctorId(id)
+                .stream()
+                .map(this::convertReview)
+                .collect(Collectors.toList());
+    }
+
+    private ReviewDto convertReview(Review review){
+        ReviewDto dto = new ReviewDto();
+        CustomBeanUtils.copyPropertiesIgnoreNullPropertyNames(review, dto, "patient","doctor");
+        if(review.getPatient()!=null){
+            dto.setPatientId(review.getPatient().getId());
+        }
+        if(review.getDoctor()!=null){
+            dto.setDoctorId(review.getDoctor().getId());
+        }
+        return dto;
+    }
+
+    public String createReview(ReviewDto reviewDto){
+        Review review = new Review();
+        if(reviewDto.getReviewText()!=null){
+            review.setReviewText(reviewDto.getReviewText());
+        }
+        if(reviewDto.getRating()!=null){
+            review.setRating(reviewDto.getRating());
+        }
+        if(reviewDto.getDoctorId()!=null){
+            Optional<User> doctor = userRepository.findById(reviewDto.getDoctorId());
+            if(doctor.isPresent()){
+                review.setDoctor(doctor.get());
+            }
+        }
+
+        if(reviewDto.getPatientId()!=null){
+            Optional<User> patient = userRepository.findById(reviewDto.getPatientId());
+            if(patient.isPresent()){
+                review.setPatient(patient.get());
+            }
+        }
+        review.setCreateDate(LocalDateTime.now());
+        reviewRepository.save(review);
+        return "Успешно";
+    }
 
     public List<DoctorRecordDto> getDoctorRecordByPatientId(Long id){
         return doctorRecordRepository.findAllByPatientId(id)
